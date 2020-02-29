@@ -51,7 +51,6 @@ use_glouton <- function(online = TRUE){
 fetch_cookies <- function(session = NULL){
   if(is.null(session))
     session <- shiny::getDefaultReactiveDomain()
-  ns <- reactiveValuesToList(session$input)[[1]]
   ns <- session$ns
   # module id
   modId <- strsplit(ns(""), "-")[[1]][1]
