@@ -51,7 +51,11 @@ use_glouton <- function(online = TRUE){
 fetch_cookies <- function(session = NULL){
   if(is.null(session))
     session <- shiny::getDefaultReactiveDomain()
-  session$sendCustomMessage("fetchcookies", TRUE)
+  ns <- reactiveValuesToList(session$input)[[1]]
+  ns <- session$ns
+  # module id
+  modId <- strsplit(ns(""), "-")[[1]][1]
+  session$sendCustomMessage("fetchcookies", list(ns = modId, TRUE))
   return(session$input[["gloutoncookies"]])
 }
 
@@ -60,7 +64,10 @@ fetch_cookies <- function(session = NULL){
 fetch_cookie <- function(name, session = NULL){
   if(is.null(session))
     session <- shiny::getDefaultReactiveDomain()
-  session$sendCustomMessage("fetchcookie", TRUE)
+  ns <- session$ns
+  # module id
+  modId <- strsplit(ns(""), "-")[[1]][1]
+  session$sendCustomMessage("fetchcookie", list(ns = modId, name = name, TRUE))
   return(session$input[["gloutoncookies"]])
 }
 
